@@ -74,9 +74,20 @@ export default function WaitlistForm() {
                                     {loading ? "Joining..." : "Get Early Access"}
                                 </Button>
                             </form>
-                            <p className="text-xs text-gray-500 mt-4">
-                                100% private. We never share your data.
-                            </p>
+                            <div className="mt-6 text-sm text-gray-400 space-y-2 text-left bg-white/5 p-4 rounded-lg border border-white/10">
+                                <p className="flex items-start gap-2">
+                                    <span className="text-green-400 mt-1">✓</span>
+                                    <span>You'll receive an immediate confirmation email.</span>
+                                </p>
+                                <p className="flex items-start gap-2">
+                                    <span className="text-yellow-400 mt-1">✓</span>
+                                    <span>We'll notify you when your beta spot opens up.</span>
+                                </p>
+                                <p className="flex items-start gap-2">
+                                    <span className="text-purple-400 mt-1">✓</span>
+                                    <span>Your privacy is respected. Data is never shared.</span>
+                                </p>
+                            </div>
                         </>
                     ) : (
                         <motion.div
