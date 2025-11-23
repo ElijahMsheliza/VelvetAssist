@@ -44,7 +44,7 @@ const messages = [
 
 export default function DemoChat() {
     return (
-        <section className="py-24 bg-black/30">
+        <section id="demo-chat" className="py-24 bg-black/30">
             <div className="container px-4 md:px-6">
                 <div className="flex flex-col lg:flex-row items-center gap-12">
                     <div className="lg:w-1/2">

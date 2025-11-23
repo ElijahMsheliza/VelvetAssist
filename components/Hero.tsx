@@ -12,6 +12,13 @@ export default function Hero() {
         }
     }
 
+    const scrollToDemo = () => {
+        const element = document.getElementById("demo-chat")
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth" })
+        }
+    }
+
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background pt-20 pb-32">
             {/* Background Gradients */}
@@ -60,7 +67,7 @@ export default function Hero() {
                         Join the Waitlist
                         <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
-                    <Button size="lg" variant="outline" className="w-full sm:w-auto border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white h-12">
+                    <Button size="lg" variant="outline" onClick={scrollToDemo} className="w-full sm:w-auto border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white h-12">
                         View Demo
                     </Button>
                 </motion.div>
