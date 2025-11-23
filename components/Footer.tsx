@@ -1,16 +1,26 @@
+import Link from "next/link"
+
 export default function Footer() {
     return (
-        <footer className="py-12 border-t border-gray-900 bg-black text-center">
-            <div className="container px-4 md:px-6">
-                <p className="text-gray-500 text-sm mb-4">
-                    Discreet. Private. Built for you.
-                </p>
-                <p className="text-gray-600 text-xs">
-                    &copy; {new Date().getFullYear()} VelvetAssist. All rights reserved.
-                </p>
-                <p className="text-gray-700 text-xs mt-2">
-                    Contact: support@velvetassist.com
-                </p>
+        <footer className="py-12 bg-black border-t border-white/10">
+            <div className="container px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="text-center md:text-left">
+                    <p className="text-lg font-serif text-white mb-2">VelvetAssist</p>
+                    <p className="text-sm text-gray-500">Discreet. Private. Built for you.</p>
+                </div>
+
+                <div className="flex items-center gap-6 text-sm text-gray-500">
+                    <Link href="/privacy" className="hover:text-yellow-500 transition-colors">
+                        Privacy Policy
+                    </Link>
+                    <a href="mailto:support@velvetassist.com" className="hover:text-yellow-500 transition-colors">
+                        support@velvetassist.com
+                    </a>
+                </div>
+
+                <div className="text-xs text-gray-600">
+                    © {new Date().getFullYear()} VelvetAssist. All rights reserved.
+                </div>
             </div>
         </footer>
     )
