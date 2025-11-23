@@ -3,6 +3,7 @@ import Problem from "@/components/Problem"
 import Solution from "@/components/Solution"
 import DemoChat from "@/components/DemoChat"
 import Benefits from "@/components/Benefits"
+import FAQ from "@/components/FAQ"
 import WaitlistForm from "@/components/WaitlistForm"
 import Footer from "@/components/Footer"
 
@@ -14,6 +15,7 @@ export default function Home() {
       <Solution />
       <DemoChat />
       <Benefits />
+      <FAQ />
       <WaitlistForm />
       <Footer />
     </main>
