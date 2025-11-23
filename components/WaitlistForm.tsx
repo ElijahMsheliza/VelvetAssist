@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Loader2, CheckCircle } from "lucide-react"
+import WaitlistCounter from "@/components/WaitlistCounter"
 
 export default function WaitlistForm() {
     const [email, setEmail] = useState("")
@@ -48,6 +49,7 @@ export default function WaitlistForm() {
                 >
                     {!success ? (
                         <>
+                            <WaitlistCounter count={312} />
                             <h2 className="text-3xl font-bold text-white mb-4">Join the Exclusive Waitlist</h2>
                             <p className="text-gray-400 mb-8">
                                 We are currently accepting a limited number of beta users. Secure your spot today.
