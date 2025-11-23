@@ -15,14 +15,18 @@ export default function WaitlistForm() {
         e.preventDefault()
         setLoading(true)
 
-        // Simulate API call
         try {
-            const res = await fetch("/api/subscribe", {
+            const res = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
                 method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({ email }),
             })
             if (res.ok) {
                 setSuccess(true)
+            } else {
+                console.error("Form submission failed")
             }
         } catch (error) {
             console.error(error)
