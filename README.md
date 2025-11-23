@@ -33,7 +33,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### GitHub Pages
 The project is configured to deploy automatically to GitHub Pages via GitHub Actions.
-- **URL**: `https://elijahmsheliza.github.io/VelvetAssist/`
+- **URL**: `https://[your-username].github.io/VelvetAssist/`
 
 ### Netlify
 The project includes a `netlify.toml` for easy deployment.
