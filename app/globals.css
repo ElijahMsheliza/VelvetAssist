@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+:root {
+  /* Luxury Dark Theme */
+  --background: #030005;
+  /* Very dark purple/black */
+  --foreground: #f8f8f8;
+
+  --primary: #d4af37;
+  /* Gold */
+  --primary-foreground: #000000;
+
+  --secondary: #1a0b2e;
+  /* Deep Purple */
+  --secondary-foreground: #d4af37;
+
+  --muted: #120820;
+  --muted-foreground: #a1a1aa;
+
+  --accent: #2d1b4e;
+  --accent-foreground: #ffffff;
+
+  --destructive: #7f1d1d;
+  --destructive-foreground: #ffffff;
+
+  --border: #2d1b4e;
+  --input: #2d1b4e;
+  --ring: #d4af37;
+
+  --radius: 0.75rem;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
