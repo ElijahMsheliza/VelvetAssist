@@ -16,7 +16,7 @@ export default function WaitlistForm() {
         setLoading(true)
 
         try {
-            const res = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+            const res = await fetch("https://formspree.io/f/xyzvbvbg", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
