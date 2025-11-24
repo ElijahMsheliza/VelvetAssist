@@ -49,7 +49,7 @@ export default function WaitlistForm() {
                 >
                     {!success ? (
                         <>
-                            <WaitlistCounter count={312} />
+                            <WaitlistCounter count="300+" />
                             <h2 className="text-3xl font-bold text-white mb-4">Join the Exclusive Waitlist</h2>
                             <p className="text-gray-400 mb-8">
                                 We are currently accepting a limited number of beta users. Secure your spot today.

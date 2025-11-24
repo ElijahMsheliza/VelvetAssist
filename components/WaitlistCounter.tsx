@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import { Users } from "lucide-react"
 
 interface WaitlistCounterProps {
-    count: number
+    count: string | number
 }
 
 export default function WaitlistCounter({ count }: WaitlistCounterProps) {
@@ -22,7 +22,7 @@ export default function WaitlistCounter({ count }: WaitlistCounterProps) {
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
                 </span>
                 <span className="text-sm font-medium text-yellow-200/90">
-                    <span className="font-bold text-yellow-400">{count.toLocaleString()}</span> companions have already joined
+                    <span className="font-bold text-yellow-400">{count}</span> companions have already joined
                 </span>
             </div>
         </motion.div>
