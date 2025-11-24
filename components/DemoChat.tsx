@@ -22,23 +22,78 @@ function SimpleAvatar({ src, fallback, className }: { src?: string, fallback: st
 const messages = [
     {
         role: "user",
-        content: "Hi, are you available tonight? What are your rates?",
-        time: "10:42 PM"
+        content: "Hi, I saw your ad and I’m interested in booking. What’s your availability this week?",
+        time: "Tue 9:00 AM"
     },
     {
         role: "assistant",
-        content: "Hello! Yes, I have availability this evening. My rates start at 300 for dinner dates. Would you like to see my full menu?",
-        time: "10:42 PM"
+        content: "Hi love, thank you for reaching out. I’m available tomorrow after 6pm and Friday between 12pm–9pm. What time works best for you?",
+        time: "Tue 9:01 AM"
     },
     {
         role: "user",
-        content: "Yes please. Do you require a deposit?",
-        time: "10:43 PM"
+        content: "Tomorrow at 7pm works.",
+        time: "Tue 9:05 AM"
     },
     {
         role: "assistant",
-        content: "I do require a 20% deposit to secure the booking. Here is the link to my verified booking page: [Link]. Shall I hold a slot for you?",
-        time: "10:43 PM"
+        content: "Perfect. Before we confirm, I do a quick light screening for safety. Could you please share: Your first name, general occupation, and a phone number. Nothing sensitive is required.",
+        time: "Tue 9:06 AM"
+    },
+    {
+        role: "user",
+        content: "Sure. I’m Daniel, I work in IT, and my number is 416-555-8291. What do you do with this info?",
+        time: "Tue 9:10 AM"
+    },
+    {
+        role: "assistant",
+        content: "It’s only for safety and to ensure clients are real people. I don’t save or store personal information — your privacy matters. Once the booking is complete, it’s deleted.",
+        time: "Tue 9:11 AM"
+    },
+    {
+        role: "assistant",
+        content: "The rate for the 1-hour booking is $300. A $40 deposit is required to secure your time. Accepted methods: e-Transfer, Cash App, PayPal, or crypto (USDT). Would you like the payment details?",
+        time: "Tue 9:11 AM"
+    },
+    {
+        role: "user",
+        content: "Yes, send them.",
+        time: "Tue 9:12 AM"
+    },
+    {
+        role: "assistant",
+        content: "Here you go: [Payment Link]. Once received, I’ll confirm the booking and send the address 1 hour before the session.",
+        time: "Tue 9:12 AM"
+    },
+    {
+        role: "user",
+        content: "Deposit sent.",
+        time: "Tue 9:20 AM"
+    },
+    {
+        role: "assistant",
+        content: "Got it, thank you. Your 7pm tomorrow appointment is confirmed. I’ll share the location around 6pm. Looking forward to meeting you.",
+        time: "Tue 9:21 AM"
+    },
+    {
+        role: "assistant",
+        content: "Hi Daniel, hope your day’s going well. Here is the address for your 7pm booking: [Location]. Please text when you arrive.",
+        time: "Wed 6:00 PM"
+    },
+    {
+        role: "user",
+        content: "Will do. I’m 10 minutes out.",
+        time: "Wed 6:50 PM"
+    },
+    {
+        role: "user",
+        content: "Hey, it’s Daniel from last time. Are you available tonight?",
+        time: "Fri 4:00 PM"
+    },
+    {
+        role: "assistant",
+        content: "Hi Daniel! No screening needed this time — thanks for being a returning client. I’m available after 9pm. Would you like 1 hour or 90 minutes?",
+        time: "Fri 4:01 PM"
     }
 ]
 
