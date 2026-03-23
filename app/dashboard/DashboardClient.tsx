@@ -1,13 +1,14 @@
 "use client"
 
 import { useState, useCallback } from "react"
-import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Loader2, Save, Link as LinkIcon, ExternalLink, Check } from "lucide-react"
+import { Loader2, Save, Link as LinkIcon, ExternalLink, Check, MessageSquare } from "lucide-react"
 import { createClient } from "@/utils/supabase/client"
 import { useRouter } from "next/navigation"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import BookingsView from "./BookingsView"
 
 interface Profile {
     id: string
@@ -24,17 +25,28 @@ interface AssistantConfig {
     deposit_instructions: string | null
 }
 
+export interface Conversation {
+    id: string
+    profile_id: string
+    client_name: string
+    status: string
+    transcript: { role: 'user' | 'assistant' | 'system'; content: string }[]
+    created_at: string
+}
+
 interface DashboardClientProps {
     profile: Profile
     initialConfig: AssistantConfig | null
     origin: string
+    conversations?: Conversation[]
 }
 
-export default function DashboardClient({ profile, initialConfig, origin }: DashboardClientProps) {
+export default function DashboardClient({ profile, initialConfig, origin, conversations = [] }: DashboardClientProps) {
     const [loading, setLoading] = useState(false)
     const [billingLoading, setBillingLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [copied, setCopied] = useState(false)
+    const [widgetCopied, setWidgetCopied] = useState(false)
     const [slug, setSlug] = useState(profile?.slug || "")
     const [config, setConfig] = useState({
         availability_rules: initialConfig?.availability_rules || "",
@@ -116,7 +128,16 @@ export default function DashboardClient({ profile, initialConfig, origin }: Dash
     }, [slug, config, profile, router])
 
     return (
-        <div className="space-y-6">
+        <Tabs defaultValue="settings" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-2 max-w-[400px]">
+                <TabsTrigger value="settings">Configuration</TabsTrigger>
+                <TabsTrigger value="bookings">
+                    <MessageSquare className="w-4 h-4 mr-2" />
+                    Bookings & Chats
+                </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="settings" className="space-y-6 mt-6">
             <Card className="bg-zinc-900/50 border-zinc-800">
                 <CardHeader>
                     <CardTitle className="text-xl text-yellow-500 flex items-center gap-2">
@@ -191,6 +212,42 @@ export default function DashboardClient({ profile, initialConfig, origin }: Dash
                 </CardContent>
             </Card>
 
+            <Card className="bg-zinc-900/50 border-zinc-800">
+                <CardHeader>
+                    <CardTitle className="text-xl text-yellow-500 flex items-center gap-2">
+                        <MessageSquare className="w-5 h-5" />
+                        Website Chat Widget
+                    </CardTitle>
+                    <CardDescription className="text-gray-400">
+                        Paste this code into the &lt;body&gt; of your website to embed your AI assistant.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex flex-col sm:flex-row gap-4 items-center p-4 bg-zinc-950/50 rounded-lg border border-zinc-800">
+                        <div className="flex-1 font-mono text-xs text-zinc-300 break-all select-all">
+                            {`<script src="${origin}/widget/${profile?.id}/embed.js"></script>`}
+                        </div>
+                        <Button
+                            variant="outline"
+                            className={`w-full sm:w-auto shrink-0 transition-colors ${widgetCopied ? 'bg-green-500/20 text-green-400 border-green-500/50' : ''}`}
+                            onClick={() => {
+                                navigator.clipboard.writeText(`<script src="${origin}/widget/${profile?.id}/embed.js"></script>`)
+                                setWidgetCopied(true)
+                                setTimeout(() => setWidgetCopied(false), 2000)
+                            }}
+                        >
+                            {widgetCopied ? <><Check className="w-4 h-4 mr-2" /> Copied!</> : "Copy Code"}
+                        </Button>
+                        <Button
+                            className="w-full sm:w-auto shrink-0 bg-yellow-500 text-black hover:bg-yellow-400"
+                            onClick={() => window.open(`${origin}/widget/${profile?.id}`, '_blank', 'width=400,height=650')}
+                        >
+                            Preview <ExternalLink className="w-4 h-4 ml-2" />
+                        </Button>
+                    </div>
+                </CardContent>
+            </Card>
+
             <form onSubmit={handleSave}>
                 <Card className="bg-zinc-900/50 border-zinc-800">
                     <CardHeader>
@@ -246,11 +303,11 @@ export default function DashboardClient({ profile, initialConfig, origin }: Dash
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-zinc-300">Deposit Instructions</label>
+                            <label className="text-sm font-medium text-zinc-300">Deposit / Payment Instructions</label>
                             <textarea
                                 value={config.deposit_instructions}
                                 onChange={e => setConfig({...config, deposit_instructions: e.target.value})}
-                                placeholder="$50 required to secure booking. CashApp: $jessvip. Send screenshot."
+                                placeholder="e.g., CashApp $jessvip for $50 deposit, OR Cash required upon arrival."
                                 className="w-full h-24 px-3 py-2 text-sm bg-zinc-950 border border-zinc-800 rounded-md text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
                                 required
                             />
@@ -266,6 +323,11 @@ export default function DashboardClient({ profile, initialConfig, origin }: Dash
                     </Button>
                 </div>
             </form>
-        </div>
+            </TabsContent>
+
+            <TabsContent value="bookings" className="mt-6">
+                <BookingsView conversations={conversations} />
+            </TabsContent>
+        </Tabs>
     )
 }

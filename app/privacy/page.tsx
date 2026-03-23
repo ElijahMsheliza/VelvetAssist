@@ -36,7 +36,7 @@ export default function PrivacyPolicy() {
                     <section>
                         <h2 className="text-2xl font-semibold text-white mb-4">How We Use It</h2>
                         <p>
-                            We use your email for one purpose: to send you updates about our launch and your spot on the waitlist. That’s it. We won't spam you with unrelated offers.
+                            We use your email for one purpose: to send you updates about our launch and your spot on the waitlist. That&apos;s it. We won&apos;t spam you with unrelated offers.
                         </p>
                     </section>
 
@@ -46,7 +46,7 @@ export default function PrivacyPolicy() {
                             <strong>We do not sell your data.</strong> Ever.
                         </p>
                         <p className="mt-2">
-                            We use a trusted service called Formspree to securely handle our email list. They process the data on our behalf, but they don't own it—we do. And we keep it safe.
+                            We use a trusted service called Formspree to securely handle our email list. They process the data on our behalf, but they don&apos;t own it—we do. And we keep it safe.
                         </p>
                     </section>
 

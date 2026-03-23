@@ -34,7 +34,7 @@ export default function Problem() {
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">The Old Way is Exhausting</h2>
                     <p className="text-gray-400 max-w-2xl mx-auto">
-                        Managing your own bookings shouldn't feel like a second full-time job.
+                        Managing your own bookings shouldn&apos;t feel like a second full-time job.
                     </p>
                 </div>
 

@@ -5,12 +5,6 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Sparkles } from "lucide-react"
 
 export default function Hero() {
-    const scrollToWaitlist = () => {
-        const element = document.getElementById("waitlist")
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth" })
-        }
-    }
 
     const scrollToDemo = () => {
         const element = document.getElementById("demo-chat")
@@ -53,8 +47,8 @@ export default function Hero() {
                     transition={{ duration: 0.8, delay: 0.4 }}
                     className="mx-auto max-w-2xl text-lg md:text-xl text-gray-400 mb-10"
                 >
-                    Built for independent companions who want fewer time-wasters, better clients, and more freedom.
-                    Let VelvetAssist handle the screening while you focus on what matters.
+                    Get your personal AI Magic Link in under 5 minutes. 
+                    Let VelvetAssist handle the screening, rates, and deposits while you focus on what matters.
                 </motion.p>
 
                 <motion.div
@@ -63,8 +57,8 @@ export default function Hero() {
                     transition={{ duration: 0.8, delay: 0.6 }}
                     className="flex flex-col sm:flex-row items-center justify-center gap-4"
                 >
-                    <Button size="lg" variant="luxury" onClick={scrollToWaitlist} className="w-full sm:w-auto text-base font-semibold px-8 h-12">
-                        Join the Waitlist
+                    <Button size="lg" variant="luxury" onClick={() => window.location.href = '/login'} className="w-full sm:w-auto text-base font-semibold px-8 h-12">
+                        Create Your Magic Link
                         <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                     <Button size="lg" variant="outline" onClick={scrollToDemo} className="w-full sm:w-auto border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white h-12">
