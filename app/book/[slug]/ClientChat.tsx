@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Send } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function ClientChat({ profileId, displayName, isWidget = false }: { profileId: string, displayName: string, isWidget?: boolean }) {
   const [conversationId] = useState(() => crypto.randomUUID())
