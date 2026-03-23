@@ -1,4 +1,4 @@
-export async function GET(req: Request, { params }: { params: Promise<{ providerId: string }> }) {
+export async function GET(_req: Request, { params }: { params: Promise<{ providerId: string }> }) {
     const { providerId } = await params;
     
     // The base URL of our SaaS

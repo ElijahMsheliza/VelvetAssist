@@ -115,7 +115,7 @@ Please ensure you strictly follow the flow and tone. DO NOT give away all inform
           }
         })
       },
-      onFinish: async ({ text, toolCalls, toolResults }) => {
+      onFinish: async ({ text, toolCalls }) => {
         // We append the assistant response. For tool calls, the AI JS SDK includes them correctly in `messages`, but we simplify here.
         // Let's store the raw text as well. In a fully robust system, we would store the whole objects.
         const fullTranscript = [...verifiedMessages, { role: 'assistant', content: text || (toolCalls && toolCalls.length > 0 ? "Called booking tool." : "") }];

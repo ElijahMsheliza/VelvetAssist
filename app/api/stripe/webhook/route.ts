@@ -114,7 +114,7 @@ export async function POST(req: Request) {
 
             default:
                 // Unhandled event — log but do not error (Stripe retries on non-2xx)
-                console.log(`[Webhook] Unhandled event type: ${event.type}`);
+                console.warn(`[Webhook] Unhandled event type: ${event.type}`);
         }
 
         return NextResponse.json({ received: true });
