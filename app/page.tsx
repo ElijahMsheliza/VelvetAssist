@@ -1,14 +1,16 @@
 import Navbar from "@/components/Navbar"
 import Hero from "@/components/Hero"
-import Problem from "@/components/Problem"
-import Solution from "@/components/Solution"
-import HowItWorks from "@/components/HowItWorks"
-import DemoChat from "@/components/DemoChat"
-import Benefits from "@/components/Benefits"
-import Testimonials from "@/components/Testimonials"
-import FAQ from "@/components/FAQ"
-import FinalCTA from "@/components/FinalCTA"
-import Footer from "@/components/Footer"
+import dynamic from "next/dynamic"
+
+const Problem = dynamic(() => import("@/components/Problem"))
+const Solution = dynamic(() => import("@/components/Solution"))
+const HowItWorks = dynamic(() => import("@/components/HowItWorks"))
+const DemoChat = dynamic(() => import("@/components/DemoChat"))
+const Benefits = dynamic(() => import("@/components/Benefits"))
+const Testimonials = dynamic(() => import("@/components/Testimonials"))
+const FAQ = dynamic(() => import("@/components/FAQ"))
+const FinalCTA = dynamic(() => import("@/components/FinalCTA"))
+const Footer = dynamic(() => import("@/components/Footer"))
 
 export default function Home() {
   return (

@@ -4,11 +4,13 @@ import { useState, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Loader2, Save, Link as LinkIcon, ExternalLink, Check, MessageSquare } from "lucide-react"
+import { Loader2, Save, Link as LinkIcon, ExternalLink, Check, MessageSquare, Calendar } from "lucide-react"
 import { createClient } from "@/utils/supabase/client"
 import { useRouter } from "next/navigation"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import BookingsView from "./BookingsView"
+import CalendarView from "./CalendarView"
+import type { Appointment } from "./CalendarView"
 
 interface Profile {
     id: string
@@ -39,9 +41,10 @@ interface DashboardClientProps {
     initialConfig: AssistantConfig | null
     origin: string
     conversations?: Conversation[]
+    appointments?: Appointment[]
 }
 
-export default function DashboardClient({ profile, initialConfig, origin, conversations = [] }: DashboardClientProps) {
+export default function DashboardClient({ profile, initialConfig, origin, conversations = [], appointments = [] }: DashboardClientProps) {
     const [loading, setLoading] = useState(false)
     const [billingLoading, setBillingLoading] = useState(false)
     const [success, setSuccess] = useState(false)
@@ -128,14 +131,22 @@ export default function DashboardClient({ profile, initialConfig, origin, conver
     }, [slug, config, profile, router])
 
     return (
-        <Tabs defaultValue="settings" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2 max-w-[400px]">
-                <TabsTrigger value="settings">Configuration</TabsTrigger>
-                <TabsTrigger value="bookings">
-                    <MessageSquare className="w-4 h-4 mr-2" />
-                    Bookings & Chats
+        <Tabs defaultValue="appointments" className="space-y-6">
+            <TabsList className="grid w-full grid-cols-3 max-w-[600px]">
+                <TabsTrigger value="appointments">
+                    <Calendar className="w-4 h-4 mr-2 hidden sm:inline" />
+                    Appointments
                 </TabsTrigger>
+                <TabsTrigger value="bookings">
+                    <MessageSquare className="w-4 h-4 mr-2 hidden sm:inline" />
+                    Chats
+                </TabsTrigger>
+                <TabsTrigger value="settings">Configuration</TabsTrigger>
             </TabsList>
+            
+            <TabsContent value="appointments" className="mt-6">
+                <CalendarView appointments={appointments} />
+            </TabsContent>
             
             <TabsContent value="settings" className="space-y-6 mt-6">
             <Card className="bg-zinc-900/50 border-zinc-800">

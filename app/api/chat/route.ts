@@ -1,5 +1,6 @@
 import { anthropic } from '@ai-sdk/anthropic';
-import { streamText, Message } from 'ai';
+import { streamText, Message, tool } from 'ai';
+import { z } from 'zod';
 import { createClient } from '@/utils/supabase/server';
 import { chatRateLimit } from '@/lib/rateLimit';
 
@@ -17,6 +18,7 @@ export async function POST(req: Request) {
     const { messages, profileId, conversationId } = await req.json();
 
     if (!profileId) return new Response('Missing profileId', { status: 400 });
+    if (!conversationId) return new Response('Missing conversationId', { status: 400 });
 
     const supabase = await createClient();
     const { data: profile } = await supabase
@@ -26,6 +28,24 @@ export async function POST(req: Request) {
       .single();
 
     if (!profile) return new Response('Profile not found', { status: 404 });
+    
+    // Securely hydrate past context from the database
+    let verifiedMessages = [...messages];
+    const { data: existingConv } = await supabase
+        .from('conversations')
+        .select('transcript')
+        .eq('id', conversationId)
+        .single();
+    
+    if (existingConv && existingConv.transcript) {
+        // We only trust the latest user message from the client payload
+        const lastMessage = messages[messages.length - 1];
+        if (lastMessage.role === 'user') {
+            verifiedMessages = [...existingConv.transcript, lastMessage];
+        } else {
+            verifiedMessages = existingConv.transcript;
+        }
+    }
 
     const companionName = profile.display_name || 'the VIP companion';
     const personaTone = profile.persona_tone || 'professional';
@@ -70,31 +90,52 @@ Please ensure you strictly follow the flow and tone. DO NOT give away all inform
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       model: anthropic(process.env.ANTHROPIC_MODEL || 'claude-3-5-sonnet-20241022') as any,
       system: systemPrompt,
-      messages,
-      onFinish: async ({ text }) => {
-        const fullTranscript = [...messages, { role: 'assistant', content: text }];
+      messages: verifiedMessages,
+      tools: {
+        book_appointment: tool({
+          description: 'Request to book an appointment. ONLY use this when the user has provided a specific date, start time, end time, and meets all screening and deposit requirements.',
+          parameters: z.object({
+            client_name: z.string().describe('The name of the client booking the appointment'),
+            start_time: z.string().describe('ISO timestamp for the start of the appointment'),
+            end_time: z.string().describe('ISO timestamp for the end of the appointment'),
+          }),
+          execute: async ({ client_name, start_time, end_time }) => {
+            const { error } = await supabase.from('appointments').insert({
+              profile_id: profileId,
+              client_name,
+              start_time,
+              end_time,
+              status: 'pending'
+            });
+            if (error) {
+              console.error('Booking tool error:', error);
+              return { success: false, message: 'Failed to request appointment due to an internal error.' };
+            }
+            return { success: true, message: 'Appointment requested successfully! State that it is pending manual review.' };
+          }
+        })
+      },
+      onFinish: async ({ text, toolCalls, toolResults }) => {
+        // We append the assistant response. For tool calls, the AI JS SDK includes them correctly in `messages`, but we simplify here.
+        // Let's store the raw text as well. In a fully robust system, we would store the whole objects.
+        const fullTranscript = [...verifiedMessages, { role: 'assistant', content: text || (toolCalls && toolCalls.length > 0 ? "Called booking tool." : "") }];
         
         let inferredName = "Client";
-        const userMessages = messages.filter((m: Message) => m.role === 'user');
+        const userMessages = fullTranscript.filter((m: Message) => m.role === 'user');
         if (userMessages.length > 0) {
            const firstMsg = userMessages[0].content;
            const nameMatch = firstMsg.match(/i am ([a-z]+)|i'm ([a-z]+)|my name is ([a-z]+)/i);
            if (nameMatch) inferredName = nameMatch[1] || nameMatch[2] || nameMatch[3];
         }
 
-        if (conversationId) {
-            await supabase
-                .from('conversations')
-                .update({ transcript: fullTranscript, client_name: inferredName })
-                .eq('id', conversationId);
-        } else {
-            await supabase.from('conversations').insert({
-                profile_id: profileId,
-                client_name: inferredName,
-                status: "Booking Requested",
-                transcript: fullTranscript
-            });
-        }
+        // Use upsert to create or update the conversation
+        await supabase.from('conversations').upsert({
+            id: conversationId,
+            profile_id: profileId,
+            client_name: inferredName,
+            status: "Booking Requested",
+            transcript: fullTranscript
+        });
       }
     });
 

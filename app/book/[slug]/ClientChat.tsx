@@ -9,10 +9,13 @@ import { Button } from '@/components/ui/button'
 import { useEffect, useRef } from 'react'
 
 export default function ClientChat({ profileId, displayName, isWidget = false }: { profileId: string, displayName: string, isWidget?: boolean }) {
+  const [conversationId] = useState(() => crypto.randomUUID())
+  
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
     api: '/api/chat',
     body: {
-      profileId
+      profileId,
+      conversationId
     },
     initialMessages: [
       {
@@ -66,6 +69,16 @@ export default function ClientChat({ profileId, displayName, isWidget = false }:
                             }
                         `}>
                             {m.content}
+                            {m.toolInvocations?.map(tool => (
+                                <div key={tool.toolCallId} className="text-xs text-yellow-500 mt-2 p-2 bg-yellow-500/10 rounded-lg flex flex-col gap-1 border border-yellow-500/20">
+                                    <span className="font-semibold uppercase tracking-wider text-[10px]">System Notification</span>
+                                    {tool.toolName === 'book_appointment' && tool.state === 'result' ? (
+                                        <span>Action complete. Status: {(tool.result as any).message || 'Success'}</span>
+                                    ) : (
+                                        <span className="animate-pulse">Requesting appointment slot...</span>
+                                    )}
+                                </div>
+                            ))}
                         </div>
                     </motion.div>
                 ))}

@@ -52,6 +52,13 @@ export default async function DashboardPage() {
         .eq('profile_id', user.id)
         .order('created_at', { ascending: false })
 
+    // Fetch appointments
+    const { data: appointments } = await supabase
+        .from('appointments')
+        .select('*')
+        .eq('profile_id', user.id)
+        .order('start_time', { ascending: true })
+
     return (
         <div className="min-h-screen bg-background text-foreground py-12 px-4 md:px-6">
             <div className="max-w-4xl mx-auto space-y-8">
@@ -64,6 +71,7 @@ export default async function DashboardPage() {
                     profile={profile} 
                     initialConfig={config} 
                     conversations={conversations || []}
+                    appointments={appointments || []}
                     origin={`${process.env.NODE_ENV === 'development' ? 'http' : 'https'}://${(await headers()).get('host')}`} 
                 />
             </div>

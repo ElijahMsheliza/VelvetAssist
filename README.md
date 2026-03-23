@@ -31,13 +31,11 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Deployment
 
-### GitHub Pages
-The project is configured to deploy automatically to GitHub Pages via GitHub Actions.
-- **URL**: `https://[your-username].github.io/VelvetAssist/`
+### Vercel
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new).
 
-### Netlify
-The project includes a `netlify.toml` for easy deployment.
-1. Import the repository in Netlify.
-2. Build command: `npm run build`
-3. Publish directory: `out`
+1. Push your code to a GitHub repository.
+2. Import the repository in Vercel.
+3. Add your environment variables (`.env.local` contents) in the Vercel project settings.
+4. Click **Deploy**. Vercel will automatically configure everything for Next.js App Router, SSR, and Image Optimization.
 
